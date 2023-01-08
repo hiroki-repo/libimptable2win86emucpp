@@ -1,0 +1,17 @@
+notesel libimportdata
+noteload "2.txt"
+logmesx="#include \"dllyact_def.h\"\n\n"
+repeat notemax
+noteget libimportdataslc,cnt
+spc4=instr(libimportdataslc,0,"    _")+5
+at4=instr(libimportdataslc,0,"@")
+if at4!-1 & spc4>4{
+methodname=""+strmid(libimportdataslc,spc4,at4-spc4)
+if methodname!"" and strmid(methodname,0,5)!"_imp_"{
+logmesx+="DEFINE_FUNC"+str(int(strmid(libimportdataslc,at4+1,strlen(libimportdataslc)))/4)+"("+methodname+")\n"
+}
+}
+loop
+notesel logmesx
+notesave "converted.cpp"
+end
